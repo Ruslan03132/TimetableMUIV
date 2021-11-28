@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String groupName[]=new String[15];
     Integer groupSize;
     String strDate = "2021-08-29 23:59:59";
- String preid;
- static Integer preid1;
+    String preid;
+    static Integer preid1;
     static Integer preid2;
     static Integer preid3;
 
@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Date dateSep = new Date();
         try {
             dateSep = formatter.parse(strDate);
-
         }
         catch (ParseException e) {
             e.printStackTrace();
@@ -95,11 +94,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         id = (int)longDifference + 1;
 
         if(preid1!=null) {
+
             preid = "117";
+
         }
-            if(preid==null){
+
+        if(preid==null) {
+
             preid="117";
-        }else {
+
+        } else {
+
             preid = String.valueOf(preid1);
             preid = preid + String.valueOf(preid2);
             preid = preid + String.valueOf(preid3);
@@ -108,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         Date d = new Date();
         String dayOfTheWeek = sdf.format(d);
+
         if (dayOfTheWeek.equals("суббота") || dayOfTheWeek.equals("воскресенье")){
             id = id + 1;
         }
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.e("preid",preid + "");
         String container = preid + id;
         id = Integer.parseInt(container);
+
     }
 
     private void settingsToolbarNavigationViewDrawerLayout() {
@@ -124,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         textView = findViewById(R.id.test);
         drawer = findViewById(R.id.activity_main);
-     //   myButton = (Button) findViewById(R.id.button);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
         };
@@ -139,12 +145,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-
         switch (item.getItemId()) {
 
             case R.id.home:
                 drawer.closeDrawer(GravityCompat.START);
-
                 break;
             case R.id.site:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.muiv.ru/")));
@@ -168,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
 
-
         return true;
     }
 
@@ -180,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case (R.id.settings):
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
-
 
         }
 
