@@ -5,42 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".info_activity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarMain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ef4136"
-            android:minHeight="56dp"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:layout_height="wrap_content"
+        android:background="#ef4136"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="МУИВ"
 
 
-            app:contentInsetStartWithNavigation="80dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:maxButtonHeight="56dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="МУИВ" />
-
-        <ScrollView
-            android:id="@+id/scrollView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
-            tools:layout_editor_absoluteX="0dp">
-
-            <LinearLayout
-                android:id="@+id/LinearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        />
 
 </LinearLayout>

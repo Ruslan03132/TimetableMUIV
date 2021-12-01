@@ -80,9 +80,9 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
                             android:layout_weight="1"
-                            android:onClick="onMyButtonCurrent"
                             android:text="Текущее"
-                            android:textAllCaps="false" />
+                            android:textAllCaps="false"
+                            android:onClick="onMyButtonCurrent"/>
 
                         <Button
                             android:id="@+id/week"
@@ -90,21 +90,15 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="30dp"
                             android:layout_weight="1"
-                            android:onClick="onMyButtonWeek"
                             android:text="На неделю"
-                            android:textAllCaps="false" />
+                            android:textAllCaps="false"
+                            android:onClick="onMyButtonWeek"/>
                     </LinearLayout>
 
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/test"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
             </LinearLayout>
         </ScrollView>
-
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -117,7 +111,5 @@
         app:headerLayout="@layout/navigation_drawer_for_main"
         app:itemIconTint="@color/design_default_color_background"
         app:itemTextColor="#FFFFFF"
-        app:menu="@menu/navigation_menu" >
-
-    </com.google.android.material.navigation.NavigationView>
+        app:menu="@menu/navigation_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>
