@@ -4,49 +4,43 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.os.HandlerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.Manifest;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.POST;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import com.example.timetablemuiv.databinding.ActivityCurrentTimetableBinding;
 import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
@@ -55,22 +49,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle toggle;
     DrawerLayout drawer;
     TextView textView;
-    Button myButton;
+    int spinnerContent;
+    Post post3;
+    String groupName[]=new String[15];
+    Integer groupSize;
+    String strDate = "2021-08-29 23:59:59";
+ String preid;
+ static Integer preid1;
+    static Integer preid2;
+    static Integer preid3;
+
+    int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settingsToolbarNavigationViewDrawerLayout();
-        final Spinner spinner = findViewById(R.id.spinnerGroup);
 
 
-        ArrayAdapter<?> adapter =
-                ArrayAdapter.createFromResource(this, R.array.groups, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
-        spinner.setAdapter(adapter);
+    }
+    public void createWeekCurrentSemestr(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        Date dateJan = new Date();
+        Date dateSep = new Date();
+        try {
+            dateSep = formatter.parse(strDate);
+
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long longDidderence = dateJan.getTime() - dateSep.getTime();
+        Log.e("ФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФ",longDidderence + "");
+        longDidderence = longDidderence / (1000 * 60 * 60 * 24 * 7);
+        Log.e("ФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФ",longDidderence + "");
+        id = (int)longDidderence + 1;
+
+        if(preid1!=null) {
+            preid = "117";
+        }
+            if(preid==null){
+            preid="117";
+        }else {
+            preid = String.valueOf(preid1);
+            preid = preid + String.valueOf(preid2);
+            preid = preid + String.valueOf(preid3);
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        Date d = new Date();
+        String dayOfTheWeek = sdf.format(d);
+        if (dayOfTheWeek.equals("суббота") || dayOfTheWeek.equals("воскресенье")){
+            id = id + 1;
+        }
+
+
+        Log.e("ЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙЙ",preid + "");
+        String container = preid + id;
+        id = Integer.parseInt(container);
+
 
     }
 
@@ -79,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
-        textView = findViewById(R.id.textView);
+        textView = findViewById(R.id.test);
         drawer = findViewById(R.id.activity_main);
      //   myButton = (Button) findViewById(R.id.button);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -167,36 +207,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //textView4.append("\n"+body1+"\n");
 
     {
+        createWeekCurrentSemestr();
         NetworkService.getInstance()
                 .getJSONApi()
-                .getPostWithID(11712)
+                .getPostWithID(id)
                 .enqueue(new Callback<Post>() {
                     @Override
                     public void onResponse(@NonNull Call<Post> call, @NonNull Response<Post> response) {
                         if (response.code() == 200) {
-                            Post post   = response.body();
+                            Post post = response.body();
 
 
-                            textView.append(post.getFaculty() + "\n");
-                            textView.append( post.getGroup().get(0).getWeek().get(0).getCouples().get(0).getTime() +"\n");
-                          //  textView.append(Post.Week.class + "\n");
+                            //textView.append(post.getFaculty() + "\n");
+
+                            //textView.append( post.getGroup().get(0).getWeek().get(0).getCouples().get(0).getTime() +"\n");
+                            //  textView.append(Post.Week.class + "\n");
                             //textView.append(post.getWeekId() + "\n");
-                            ActivityCurrentTimetable.post2=post;
-                        }
-                        else
-                        {
-                            String text = response.errorBody().source()+"";
-                            text = text.substring(1,text.length()-1);
+                            ActivityCurrentTimetable.post2 = post;
+                            ActivityWeekTimetable.post3 = post;
+                            post3 = post;
+                        } else {
+                            String text = response.errorBody().source() + "";
+                            text = text.substring(1, text.length() - 1);
                             text = text.substring(5);
-                            textView.append(""+response.code()+"\n"+text);
-                            String x ="";
+                            textView.append("" + response.code() + "\n" + text);
+                            String x = "";
 
                         }
 
 
-                    //    textView.append(post.getUserId() + "\n");
-                     //   textView.append(post.getTitle() + "\n");
-                      //  textView.append(post.getBody() + "\n");
+                        //    textView.append(post.getUserId() + "\n");
+                        //   textView.append(post.getTitle() + "\n");
+                        //  textView.append(post.getBody() + "\n");
                     }
 
                     @Override
@@ -204,11 +246,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                         textView.append("Error occurred while getting request!");
-                             textView.append(t.getMessage());
+                        textView.append(t.getMessage());
                         t.printStackTrace();
                     }
                 });
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                for (int i = 0; i < 15; i++) {
+                    if (i < post3.getGroup().size()) {
+                        groupName[i]=post3.getGroup().get(i).getGroupName();
+                        groupSize=i;
+                    }
 
+
+                }
+                final Spinner spinner = findViewById(R.id.spinnerGroup);
+                List<String> groups = new ArrayList<String>();
+                for (int i = 0; i < 15; i++) {
+                 if (groupName[i]!=null) {
+                            groups.add(groupName[i]);
+                    }
+                 }
+                groups.add("Все");
+
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, groups);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent,
+                                               View itemSelected, int selectedItemPosition, long selectedId) {
+
+
+                        if (selectedItemPosition > groupSize){
+                            spinnerContent = 99;
+                        }
+                        else
+                        {
+                            spinnerContent = selectedItemPosition;
+                        }
+                        ActivityCurrentTimetable.spinnerContent=spinnerContent;
+                        ActivityWeekTimetable.spinnerContent=spinnerContent;
+                    }
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+            }
+
+                // yourMethod();
+
+        }, 700);   //5 seconds
     }
 
 

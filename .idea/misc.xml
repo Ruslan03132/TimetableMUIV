@@ -3,12 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV3/app/src/main/res/layout/activity_current_timetable.xml" value="0.21784420289855072" />
-        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV3/app/src/main/res/layout/activity_info.xml" value="0.21784420289855072" />
-        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV3/app/src/main/res/layout/activity_main.xml" value="0.21784420289855072" />
-        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV3/app/src/main/res/layout/activity_settings.xml" value="0.21784420289855072" />
-        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV3/app/src/main/res/layout/activity_week_timetable.xml" value="0.21784420289855072" />
-        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV3/app/src/main/res/layout/navigation_drawer_for_main.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV7/app/src/main/res/layout/activity_main.xml" value="0.21784420289855072" />
+        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV7/app/src/main/res/layout/activity_settings.xml" value="0.2056159420289855" />
+        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV7/app/src/main/res/menu/navigation_menu.xml" value="0.346875" />
+        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV7/app/src/main/res/menu/settings_menu.xml" value="0.346875" />
+        <entry key="..\:/Users/cheku/AndroidStudioProjects/TimetableMUIV7/app/src/main/res/xml/timetable_preferences.xml" value="0.2056159420289855" />
       </map>
     </option>
   </component>
