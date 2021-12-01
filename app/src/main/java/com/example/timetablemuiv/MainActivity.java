@@ -17,6 +17,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.Manifest;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.POST;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.timetablemuiv.databinding.ActivityCurrentTimetableBinding;
@@ -29,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     ActionBarDrawerToggle toggle;
     DrawerLayout drawer;
+    TextView textView;
+    Button myButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,14 +73,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         spinner.setAdapter(adapter);
 
     }
-    private void settingsToolbarNavigationViewDrawerLayout(){
+
+    private void settingsToolbarNavigationViewDrawerLayout() {
         toolbar = findViewById(R.id.toolbarMain);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
+        textView = findViewById(R.id.textView);
         drawer = findViewById(R.id.activity_main);
-
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open ,R.string.navigation_drawer_close){
+     //   myButton = (Button) findViewById(R.id.button);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
         };
         drawer.addDrawerListener(toggle);
@@ -61,10 +90,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
+
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
 
 
         switch (item.getItemId()) {
@@ -83,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
 
-
         }
         drawer.closeDrawer(GravityCompat.START);
 
@@ -97,17 +126,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         inflater.inflate(R.menu.settings_menu, menu);
 
 
-
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
 
-            case(R.id.settings):
+            case (R.id.settings):
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
 
@@ -119,9 +146,70 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void onMyButtonCurrent(View view) {
         startActivity(new Intent(this, ActivityCurrentTimetable.class));
+
     }
 
     public void onMyButtonWeek(View view) {
         startActivity(new Intent(this, ActivityWeekTimetable.class));
     }
+
+
+
+
+
+
+
+
+//editText.setText("79293557688");
+
+
+        //   body1.setPhoneNumber(i);
+        //textView4.append("\n"+body1+"\n");
+
+    {
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getPostWithID(11712)
+                .enqueue(new Callback<Post>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Post> call, @NonNull Response<Post> response) {
+                        if (response.code() == 200) {
+                            Post post   = response.body();
+
+
+                            textView.append(post.getFaculty() + "\n");
+                            textView.append( post.getGroup().get(0).getWeek().get(0).getCouples().get(0).getTime() +"\n");
+                          //  textView.append(Post.Week.class + "\n");
+                            //textView.append(post.getWeekId() + "\n");
+                            ActivityCurrentTimetable.post2=post;
+                        }
+                        else
+                        {
+                            String text = response.errorBody().source()+"";
+                            text = text.substring(1,text.length()-1);
+                            text = text.substring(5);
+                            textView.append(""+response.code()+"\n"+text);
+                            String x ="";
+
+                        }
+
+
+                    //    textView.append(post.getUserId() + "\n");
+                     //   textView.append(post.getTitle() + "\n");
+                      //  textView.append(post.getBody() + "\n");
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
+
+
+                        textView.append("Error occurred while getting request!");
+                             textView.append(t.getMessage());
+                        t.printStackTrace();
+                    }
+                });
+
+    }
+
+
 }
