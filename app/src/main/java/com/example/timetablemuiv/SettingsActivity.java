@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,14 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
-    int spinnerContent1;
-    int spinnerContent2;
-    int spinnerContent3;
+    public static final String settingsSharedPreferences = "settingsSharedPreferences";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);
+        SharedPreferences sharedPreferences = this.getSharedPreferences(settingsSharedPreferences, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
         final Spinner spinner = (Spinner) findViewById(R.id.spinnerGroup);
         final Spinner spinner2 = (Spinner) findViewById(R.id.spinnerGroup2);
         final Spinner spinner3 = (Spinner) findViewById(R.id.spinnerGroup3);
@@ -36,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
        //_______________________________________________________________________________
         List<String> formofedu = new ArrayList<String>();
         formofedu.add("Очная");
-        formofedu.add("");
+
       /*  formofedu.add("Факультет управления");
         formofedu.add("Факультет экономики и финансов");
         formofedu.add("Факультет юридический");*/
@@ -66,40 +69,49 @@ public class SettingsActivity extends AppCompatActivity {
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner3.setAdapter(adapter3);
 
+
+
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent,
                                        View itemSelected, int selectedItemPosition, long selectedId) {
 
                 MainActivity.preid1 = selectedItemPosition+1;
-
-
+                editor.putInt("Факультеты",MainActivity.preid1);
+                editor.apply();
 
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
+
         });
+        spinner.setSelection(sharedPreferences.getInt("Факультеты",1) - 1);
+
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent,
                                        View itemSelected, int selectedItemPosition2, long selectedId) {
 
                 MainActivity.preid2 = selectedItemPosition2+1;
-
-
+                editor.putInt("Форма обучения",MainActivity.preid2);
+                editor.apply();
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        spinner2.setSelection(sharedPreferences.getInt("Форма обучения",1) - 1);
         spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent,
                                        View itemSelected, int selectedItemPosition3, long selectedId) {
 
                 MainActivity.preid3 = selectedItemPosition3+1;
-
+                editor.putInt("Курс",MainActivity.preid3);
+                editor.apply();
 
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        spinner3.setSelection(sharedPreferences.getInt("Курс",1) - 1);
 
 
 
@@ -110,6 +122,8 @@ public class SettingsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

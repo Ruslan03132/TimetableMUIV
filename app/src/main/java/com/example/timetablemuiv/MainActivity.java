@@ -7,10 +7,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.os.HandlerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.preference.PreferenceManager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,9 +63,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Integer groupSize;
     String strDate = "2021-08-29 23:59:59";
     String preid;
-    static Integer preid1;
-    static Integer preid2;
-    static Integer preid3;
+    static Integer preid1 = 1;
+    static Integer preid2 = 1;
+    static Integer preid3 = 1;
 
     int id;
     @Override
@@ -72,12 +74,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settingsToolbarNavigationViewDrawerLayout();
-
-
-
+        createWeekCurrentSemestr();
+        network();
 
     }
+
+
     public void createWeekCurrentSemestr(){
+        SharedPreferences sharedPreferences = this.getSharedPreferences(SettingsActivity.settingsSharedPreferences, Context.MODE_PRIVATE);
+
+
+        preid1 = sharedPreferences.getInt("Факультеты",1);
+        preid2 = sharedPreferences.getInt("Форма обучения",1);
+        preid3 = sharedPreferences.getInt("Курс",1);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date dateJan = new Date();
         Date dateSep = new Date();
@@ -211,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //   body1.setPhoneNumber(i);
         //textView4.append("\n"+body1+"\n");
 
-    {
-        createWeekCurrentSemestr();
+    public void network() {
+
         NetworkService.getInstance()
                 .getJSONApi()
                 .getPostWithID(id)
@@ -248,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     groups.add(groupName[i]);
                                 }
                             }
-                            groups.add("Все");
+
 
 
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, groups);
@@ -295,8 +304,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-
     }
+
+
+
+
+
 
 
 }
